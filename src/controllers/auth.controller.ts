@@ -24,7 +24,10 @@ export default class UserController {
       const user = await UserRepository.getOne(req.user.id);
       res.json({
         status: true,
-        data: user,
+        data: {
+          user: user,
+          token: req.user,
+        },
         message: "Your profile.",
       });
     } catch (error: any) {
@@ -32,14 +35,16 @@ export default class UserController {
     }
   }
 
-  async logout(req: Request, res: Response) {
+  async logout(req: AuthenticatedRequest, res: Response) {
     try {
-      await AuthRepository.signOut();
-      res.status(200).json({
-        status: true,
-        data: null,
-        message: "Logout success.",
-      });
+      if (req.token) {
+        const result = await AuthRepository.signOut(req.token);
+        res.status(200).json({
+          status: true,
+          data: result,
+          message: "Logout success.",
+        });
+      }
     } catch (error: any) {
       sendErrorResponse(res, error);
     }

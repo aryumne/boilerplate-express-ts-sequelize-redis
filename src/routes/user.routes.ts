@@ -10,7 +10,10 @@ class UserRoutes {
   }
 
   initializeRoutes() {
-    this.userRouter.get("/", verifyToken, this.userController.index);
+    // apply verifyToken middleware to all user routes
+    this.userRouter.use(verifyToken);
+
+    this.userRouter.get("/", this.userController.index);
     this.userRouter.get("/:id", this.userController.show);
     this.userRouter.post("/", this.userController.store);
     this.userRouter.patch("/:id", this.userController.update);

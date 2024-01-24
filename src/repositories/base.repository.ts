@@ -1,4 +1,4 @@
-import CustomError from "../helpers/customError.helper";
+import CustomError from "../exceptions/customError";
 
 class BaseRepository {
   protected handleCustomError(

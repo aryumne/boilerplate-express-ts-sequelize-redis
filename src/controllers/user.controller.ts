@@ -3,7 +3,7 @@ import AuthenticatedRequest from "../requests/authenticated.request";
 import UserModel from "../models/user.model";
 import userRepository from "../repositories/user.repository";
 import sendErrorResponse from "../helpers/sendErrorResponse.helper";
-import CustomError from "../helpers/customError.helper";
+import CustomError from "../exceptions/customError";
 
 export default class UserController {
   async index(req: AuthenticatedRequest, res: Response) {

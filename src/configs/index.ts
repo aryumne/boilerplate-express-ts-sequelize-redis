@@ -12,8 +12,10 @@ const {
   SALT_ROUNDS,
   SALT_KEY,
   TOKEN_KEY,
+  TOKEN_EXPIRATION,
   CACHE_HOST,
   CACHE_PORT,
+  JWT_SET_KEY,
 } = process.env;
 export default {
   port: PORT,
@@ -26,6 +28,8 @@ export default {
   saltRounds: SALT_ROUNDS,
   saltKey: SALT_KEY,
   tokenKey: TOKEN_KEY,
+  tokenExpration: TOKEN_EXPIRATION || "5m",
   cacheHost: CACHE_HOST,
   cachePort: CACHE_PORT || 6379,
+  jwtSetKey: JWT_SET_KEY || "tokens",
 };
