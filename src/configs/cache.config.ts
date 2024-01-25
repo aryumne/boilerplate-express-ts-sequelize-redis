@@ -1,8 +1,7 @@
 import configs from ".";
 import * as Redis from "ioredis";
 
-class RedisClient {
-  private static instance: RedisClient;
+export default class Cache {
   private cache!: Redis.Redis;
   constructor() {
     this.connectToRedis();
@@ -23,16 +22,7 @@ class RedisClient {
     }
   }
 
-  public static getInstance(): RedisClient {
-    if (!RedisClient.instance) {
-      RedisClient.instance = new RedisClient();
-    }
-    return RedisClient.instance;
-  }
-
   public getCache(): Redis.Redis {
     return this.cache;
   }
 }
-
-export default RedisClient.getInstance();

@@ -1,6 +1,7 @@
-import { Model, Table, Column, DataType } from "sequelize-typescript";
+import { Model, Table, Column, DataType, HasMany } from "sequelize-typescript";
 import bcrypt from "bcrypt";
 import configs from "../configs";
+import LoginActivity from "./loginActivity.model";
 
 @Table({
   tableName: "users",
@@ -54,4 +55,7 @@ export default class User extends Model {
     field: "remember_me",
   })
   rememberMe?: boolean;
+
+  @HasMany(() => LoginActivity)
+  logActivities?: LoginActivity[];
 }

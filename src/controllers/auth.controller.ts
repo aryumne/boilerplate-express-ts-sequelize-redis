@@ -3,12 +3,22 @@ import AuthRepository from "../repositories/auth.repository";
 import AuthenticatedRequest from "../requests/authenticated.request";
 import UserRepository from "../repositories/user.repository";
 import sendErrorResponse from "../helpers/sendErrorResponse.helper";
+import BaseController from "./base.controller";
 
-export default class UserController {
+export default class UserController extends BaseController {
   async login(req: Request, res: Response) {
     try {
+      console.log(req.useragent);
       const { email, password } = req.body;
-      const token = await AuthRepository.signIn(email, password);
+      const reqIp = req.ip || null;
+      const userAgent = req.useragent || null;
+      console.log(userAgent);
+      const token = await AuthRepository.signIn(
+        email,
+        password,
+        userAgent,
+        reqIp
+      );
       res.status(200).json({
         status: true,
         data: { token: token },

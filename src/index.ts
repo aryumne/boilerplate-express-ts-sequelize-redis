@@ -2,7 +2,8 @@ import express, { Application } from "express";
 import cors, { CorsOptions } from "cors";
 import Routes from "./routes";
 import Database from "./configs/database.config";
-import RedisClient from "./configs/cache.config";
+import Cache from "./configs/cache.config";
+import useragent from "express-useragent";
 export default class Server {
   constructor(app: Application) {
     this.config(app);
@@ -18,14 +19,16 @@ export default class Server {
     app.use(cors(corsOptions));
     app.use(express.json());
     app.use(express.urlencoded({ extended: true }));
+    app.use(useragent.express());
   }
 
   private syncCache(): void {
-    RedisClient;
+    new Cache();
   }
 
   private syncDatabase(): void {
-    const db = new Database();
+    new Database();
+    // const db = new Database();
     // db.initDb?.sync({ alter: true });
   }
 }
