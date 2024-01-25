@@ -12,7 +12,6 @@ export default class UserController extends BaseController {
       const { email, password } = req.body;
       const reqIp = req.ip || null;
       const userAgent = req.useragent || null;
-      console.log(userAgent);
       const token = await AuthRepository.signIn(
         email,
         password,

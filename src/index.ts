@@ -19,6 +19,7 @@ export default class Server {
     app.use(cors(corsOptions));
     app.use(express.json());
     app.use(express.urlencoded({ extended: true }));
+    app.use(express.static("public"));
     app.use(useragent.express());
   }
 

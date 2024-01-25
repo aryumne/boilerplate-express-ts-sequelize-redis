@@ -5,7 +5,6 @@ import jwt from "jsonwebtoken";
 import BaseRepository from "./base.repository";
 import LoginActivity from "../models/loginActivity.model";
 import { useCache, getDevice, useDb } from "../helpers";
-import Database from "../configs/database.config";
 
 interface IAuthRepository {
   signIn(
@@ -37,7 +36,7 @@ class AuthRepository extends BaseRepository implements IAuthRepository {
           user.password
         );
         if (!validPassword)
-          this.handleCustomError("Password is incorrect!", 400);
+          this.handleCustomError("Password is incorrect!", 422);
 
         // create new jwt token
         const token = jwt.sign(
@@ -65,7 +64,7 @@ class AuthRepository extends BaseRepository implements IAuthRepository {
             device: getDevice(userAgent),
             os: userAgent?.os,
             browser: userAgent?.browser,
-            ip: reqIp,
+            ipAddress: reqIp,
           },
           { transaction: dbTransaction }
         );
