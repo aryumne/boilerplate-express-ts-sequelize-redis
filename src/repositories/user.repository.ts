@@ -1,7 +1,6 @@
-import { Op } from "sequelize";
+import { Op, ValidationErrorItem } from "sequelize";
 import UserModel from "../models/user.model";
 import BaseRepository from "./base.repository";
-
 interface IUserRepository {
   save(user: UserModel): Promise<UserModel>;
   getAll(searcParams: { name: string }): Promise<UserModel[]>;
@@ -14,6 +13,11 @@ interface SearchCondition {
   [key: string]: any;
 }
 
+interface ErrorValidationObject {
+  message: string;
+  path: string;
+}
+
 class UserRepository extends BaseRepository implements IUserRepository {
   async save(user: UserModel): Promise<UserModel> {
     try {
@@ -22,8 +26,8 @@ class UserRepository extends BaseRepository implements IUserRepository {
         email: user?.email,
         password: user?.password,
       });
-    } catch (error) {
-      this.handleCustomError("Failed to create user!");
+    } catch (error: any) {
+      this.handleCustomError("Failed to create user!", 422);
     }
   }
 

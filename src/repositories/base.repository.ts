@@ -1,11 +1,13 @@
 import CustomError from "../exceptions/customError";
 
-class BaseRepository {
+interface IBaseRepository {}
+class BaseRepository implements IBaseRepository {
   protected handleCustomError(
     message: string,
-    statusCode: number = 400
+    statusCode: number = 400,
+    stack: any = null
   ): never {
-    throw new CustomError(message, statusCode);
+    throw new CustomError(message, statusCode, stack);
   }
 }
 

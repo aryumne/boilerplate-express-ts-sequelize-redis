@@ -19,7 +19,10 @@ const sendErrorResponse = (
       ? "The token is expired!"
       : "Internal server error!";
 
-  if (error instanceof CustomError) errorMsg = error.message;
+  if (error instanceof CustomError) {
+    errorMsg = error.message;
+    if (error.stack !== undefined) bodyMsg = error.stack;
+  }
   const responseOptions: ErrorResponseOptions = {
     status: false,
     data: bodyMsg,

@@ -19,12 +19,14 @@ export default class User extends Model {
 
   @Column({
     type: DataType.STRING,
+    allowNull: false,
     field: "name",
   })
   name?: string;
 
   @Column({
     type: DataType.STRING,
+    allowNull: false,
     field: "email",
     unique: true,
   })
@@ -33,6 +35,7 @@ export default class User extends Model {
   @Column({
     type: DataType.STRING,
     field: "password",
+    allowNull: false,
     set(val: string) {
       const saltRounds = parseInt(configs.saltRounds as string, 10) || 10;
       const pass: string = val || "password";

@@ -3,6 +3,7 @@ import Cache from "../configs/cache.config";
 import * as Redis from "ioredis";
 import Database from "../configs/database.config";
 import { Sequelize } from "sequelize-typescript";
+import CustomError from "../exceptions/customError";
 
 export const useCache = (): Redis.Redis => {
   const initializedCache = new Cache();
@@ -16,7 +17,7 @@ export const useDb = (): Sequelize => {
   return db;
 };
 
-export const extractToken = (req: AuthenticatedRequest) => {
+export const extractToken = (req: AuthenticatedRequest): string => {
   try {
     const getToken = req.headers.authorization?.replace("Bearer ", "");
     if (!getToken) throw new Error("Token missing from request");
@@ -26,7 +27,7 @@ export const extractToken = (req: AuthenticatedRequest) => {
   }
 };
 
-export const getDevice = (userAgent: any) => {
+export const getDevice = (userAgent: any): string => {
   let device = "";
   if (userAgent?.isiPad === true) {
     device = "iPad";
@@ -44,4 +45,12 @@ export const getDevice = (userAgent: any) => {
     device = "unknown";
   }
   return device;
+};
+
+export const throwCustomError = (
+  message: string,
+  statusCode: number = 400,
+  stack: string | undefined = undefined
+): never => {
+  throw new CustomError(message, statusCode, stack);
 };

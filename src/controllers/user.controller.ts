@@ -4,8 +4,10 @@ import UserModel from "../models/user.model";
 import userRepository from "../repositories/user.repository";
 import sendErrorResponse from "../helpers/sendErrorResponse.helper";
 import CustomError from "../exceptions/customError";
+import { validationResult } from "express-validator";
+import BaseController from "./base.controller";
 
-export default class UserController {
+export default class UserController extends BaseController {
   async index(req: AuthenticatedRequest, res: Response) {
     try {
       const users = await userRepository.getAll(req.query);
@@ -33,14 +35,10 @@ export default class UserController {
   }
 
   async store(req: Request, res: Response) {
-    if (!req.body.name) {
-      res.status(400).json({
-        message: "Content can not be empty!",
-      });
-      return;
-    }
-
     try {
+      const result = validationResult(req);
+      if (!result.isEmpty())
+        throw new CustomError("Validation error", 422, result.array());
       const user: UserModel = req.body;
       const saveduser = await userRepository.save(user);
 
@@ -50,6 +48,7 @@ export default class UserController {
         message: "The user has created successfully.",
       });
     } catch (error: any) {
+      console.log(error);
       sendErrorResponse(res, error);
     }
   }
