@@ -14,7 +14,7 @@ const verifyToken = async (
   try {
     token = extractToken(req);
     const tokenExist = await useCache().sismember(configs.jwtSetKey, token);
-    if (tokenExist === 0) throw new CustomError("The token is not valid!");
+    if (tokenExist === 0) throw new CustomError("The token is not valid!", 401);
     const verifiedToken = jwt.verify(token, configs.tokenKey as string);
     req.token = token;
     req.user = verifiedToken;
